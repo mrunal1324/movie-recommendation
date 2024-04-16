@@ -13,6 +13,19 @@ movies = movies.merge(credits, on='title')
 movies = movies[['movie_id', 'title', 'overview', 'genres', 'keywords', 'cast', 'crew']]
 movies.dropna(inplace=True)
 
+# Define converter functions
+def converter1(obj):
+    # Convert string representation of list to actual list and extract 'name' key
+    return [entry['name'] for entry in ast.literal_eval(obj)]
+
+def converter2(obj):
+    # Convert string representation of list to actual list and extract 'name' key, limiting to 3 entries
+    return [entry['name'] for entry in ast.literal_eval(obj)][:3]
+
+def converter3(obj):
+    # Extract 'name' key where 'job' is 'Director'
+    return [entry['name'] for entry in ast.literal_eval(obj) if entry['job'] == 'Director']
+
 # Preprocess data
 def preprocess_data(movies):
     movies['genres'] = movies['genres'].apply(converter1)
@@ -34,12 +47,13 @@ movies = preprocess_data(movies)
 ps = PorterStemmer()
 def stem(text):
     if isinstance(text, list):
-        return [stem(word) for word in text]
+        return " ".join([stem(word) for word in text])  # Join stemmed words into a single string
     else:
         y = []
         for i in text.split():
             y.append(ps.stem(i))
         return " ".join(y)
+
 
 movies['tags'] = movies['tags'].apply(stem)
 
