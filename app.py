@@ -47,12 +47,10 @@ movies = preprocess_data(movies)
 ps = PorterStemmer()
 def stem(text):
     if isinstance(text, list):
-        return [stem(word) for word in text]
+        return " ".join([stem(word) for word in text])  # Join stemmed words into a single string
     else:
-        y = []
-        for i in text.split():
-            y.append(ps.stem(i))
-        return " ".join(y)
+        return str(text).lower()  # Convert to lowercase and ensure it's a string
+
 
 movies['tags'] = movies['tags'].apply(stem)
 
