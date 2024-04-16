@@ -47,13 +47,12 @@ movies = preprocess_data(movies)
 ps = PorterStemmer()
 def stem(text):
     if isinstance(text, list):
-        return " ".join([stem(word) for word in text])  # Join stemmed words into a single string
+        return [stem(word) for word in text]
     else:
         y = []
         for i in text.split():
             y.append(ps.stem(i))
         return " ".join(y)
-
 
 movies['tags'] = movies['tags'].apply(stem)
 
@@ -91,3 +90,7 @@ if st.button("Recommend"):
     st.write("Recommended Movies:")
     for movie in recommendations:
         st.write("-", movie)
+
+# Display session info
+if st.session_state.is_active:
+    st.session_info()
