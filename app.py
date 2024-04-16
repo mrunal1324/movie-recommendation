@@ -51,7 +51,6 @@ def stem(text):
     else:
         return str(text).lower()  # Convert to lowercase and ensure it's a string
 
-
 movies['tags'] = movies['tags'].apply(stem)
 
 # Create CountVectorizer
@@ -89,6 +88,5 @@ if st.button("Recommend"):
     for movie in recommendations:
         st.write("-", movie)
 
-# Display session info
-if st.session_state.is_active:
-    st.session_info()
+# Initialize session state
+st.session_state.sync()
