@@ -87,6 +87,3 @@ if st.button("Recommend"):
     st.write("Recommended Movies:")
     for movie in recommendations:
         st.write("-", movie)
-
-# Initialize session state
-st.session_state.sync()
